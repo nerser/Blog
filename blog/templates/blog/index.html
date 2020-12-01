@@ -1,0 +1,17 @@
+{% extends 'blog/base_blog.html' %}
+
+{% block title %}
+	Hello
+{% endblock %}
+
+{% block content %}
+
+	<h1 class="mb-5">Posts:</h1>	
+
+		{% for name in names %} 
+			<p>
+				{{name}}
+			</p> 
+		{% endfor %}
+
+{% endblock %}

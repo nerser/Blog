@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 
 from typing import Callable
 
@@ -50,3 +51,18 @@ class ObjectUpdate:
             return redirect(new_obj)
 
         return render(request, self.template, context={'form': bound_form, self.model.__name__.lower(): obj})
+
+
+class ObjectDelete:
+    model: Callable = None
+    template: str = None
+    model_list_template: str = None
+
+    def get(self, request, slug):
+        obj = self.model.objects.get(slug__iexact=slug)
+        return render(request, self.template, context={self.model.__name__.lower(): obj})
+
+    def post(self, request, slug):
+        obj = self.model.objects.get(slug__iexact=slug)
+        obj.delete()
+        return redirect(reverse(self.model_list_template))

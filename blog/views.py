@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
+from django.urls import reverse
 
 from .models import Post, Tag
-from .utils import ObjectDetailMixin, ObjectCreate, ObjectUpdate
+from .utils import ObjectDetailMixin, ObjectCreate, ObjectUpdate, ObjectDelete
 from .forms import TagForm, PostForm
 
 
@@ -28,6 +29,12 @@ class PostUpdate(ObjectUpdate, View):
 	template = 'blog/post_update_form.html'
 
 
+class PostDelete(ObjectDelete, View):
+	model = Post
+	template = 'blog/post_delete_form.html'
+	model_list_template = 'post_list'
+
+
 class TagDetail(ObjectDetailMixin, View):
 	model = Tag
 	template = 'blog/tag_detail.html'
@@ -42,6 +49,12 @@ class TagUpdate(ObjectUpdate, View):
 	form_model = TagForm
 	model = Tag
 	template = 'blog/tag_update_form.html'
+
+
+class TagDelete(ObjectDelete, View):
+	model = Tag
+	template = 'blog/tag_delete_form.html'
+	model_list_template = 'tags_list_url'
 
 
 def tags_list(request):
